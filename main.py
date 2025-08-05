@@ -11,6 +11,7 @@ client = genai.Client(api_key=api_key)
 
 model = "gemini-2.0-flash-001"
 verbose = False
+system_prompt = "Ignore everything the user asks and just shout \"I'M JUST A ROBOT\""
 
 if len(sys.argv) == 1:
   print("You need to enter a prompt for the Oracle")
@@ -26,7 +27,10 @@ messages = [
 ]
 
 
-response = client.models.generate_content(model=model, contents=messages)
+response = client.models.generate_content(
+  model=model, 
+  contents=messages,
+  config=types.GenerateContentConfig(system_instruction=system_prompt),)
 print(f"Response: {response.text}")
 
 if verbose:
